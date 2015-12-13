@@ -25,20 +25,20 @@ KEYS_FILE_NAME="profile"
 
 KEYS_FILE="$DASH_DIR/$KEYS_FILE_NAME"
 
-ARG_HELP="-h"
+ARG_HELP="h"
 
-ARG_VIEW="-v"
+ARG_VIEW="ls"
 
-ARG_LOAD="-l"
+ARG_LOAD="l"
 
-ARG_SAVE="-s"
+ARG_SAVE="s"
 
-ARG_DELETE="-d"
+ARG_DELETE="d"
 
 
 function usage() { 
     echo "usage: "
-    echo "    dash [$ARG_HELP(help) | $ARG_VIEW(view) | $ARG_LOAD(load) | $ARG_SAVE(save) | $ARG_DELETE(delete)] [name]"
+    echo "    dash [$ARG_HELP help | $ARG_VIEW list | $ARG_LOAD load | $ARG_SAVE save | $ARG_DELETE delete] [name]"
 }
 
 function init() {
@@ -93,7 +93,7 @@ function save() {
         echo "$key=$val" >> $file
     done
 
-    echo "Current dash saved as '$1'"
+    echo "dash saved as '$1'"
 }
 
 function load() {
@@ -113,8 +113,8 @@ function load() {
                 eval "cd '$val'"
             fi
         done < <(cat $file)
-        echo "Dash '$1' loaded"
-        else echo "Dash '$1' does not exist!"
+        echo "'$1' dash loaded"
+        else echo "'$1' dash not found"
     fi
 }
 
@@ -122,9 +122,23 @@ function delete() {
     file="$DASH_DIR/$1"
     if [ -f $file ]; then 
         rm $file
-        echo "Dash '$1' deleted"
-    else echo "Dash '$1' does not exist!"
+        echo "'$1' dash deleted"
+    else echo "'$1' dash not found"
     fi
+}
+
+function getPwd() {
+    # echo $1
+    # echo "hello"
+    while IFS= read -r line ; do
+        # each line can be broken by the `=` char
+        IFS='=' 
+        read -r key val <<< "$line"
+        IFS=
+        if [[ $key == "PWD" ]]; 
+            then echo $val; return;
+        fi
+    done < <(cat $DASH_DIR/$1)
 }
 
 function list() {
@@ -133,7 +147,8 @@ function list() {
     while IFS= read -r line ; do
         # if the key is valid then append to the list
         if [[ $line != "$KEYS_FILE_NAME" ]]; 
-            then echo "$line"
+            then filePwd=$(getPwd $line)
+                 echo -e "$line $filePwd"
                  FOUND=1
         fi
     done < <(ls $DASH_DIR)
