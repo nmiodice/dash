@@ -83,6 +83,13 @@ function save() {
     echo "dash saved as '$1'"
 }
 
+function runScripts() {
+    if [ -d ".git" ]; then
+        if [[ $(git branch -r) != "" ]]; then eval "git pull"
+        fi
+    fi
+}
+
 function load() {
     file="$DASH_DIR/$1"
     if [ -f $file ]; then 
@@ -100,6 +107,8 @@ function load() {
                 eval "cd '$val'"
             fi
         done < <(cat $file)
+
+        runScripts
         echo "'$1' dash loaded"
         else echo "'$1' dash not found"
     fi
@@ -132,7 +141,7 @@ function list() {
     while IFS= read -r line ; do
         # if the key is valid then append to the list
         if [[ $line != "$KEYS_FILE_NAME" ]]; 
-            then filePwd=$(getPwd $line)
+            then filePwd=$(getPwdForEnv $line)
                  folder=$(echo $filePwd | sed 's#.*/##')
 
                  printf "%-10s | %-0s/\n" $line $folder 
