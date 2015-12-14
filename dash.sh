@@ -10,31 +10,18 @@ DEF_VALID_KEYS=(
     "PS1"
     "LOGNAME"
     "HOME"
-    "PWD"
-)
-
+    "PWD")
 # the keys we actually care about (may be overridden with config file)
 VALID_KEYS=()
-
-# key-value store of current environment
 LOCAL_ENV=()
-
 DASH_DIR="$HOME/.dash"
-
 KEYS_FILE_NAME="profile"
-
 KEYS_FILE="$DASH_DIR/$KEYS_FILE_NAME"
-
 ARG_HELP="h"
-
 ARG_VIEW="ls"
-
 ARG_LOAD="l"
-
 ARG_SAVE="s"
-
-ARG_DELETE="d"
-
+ARG_DELETE="rm"
 
 function usage() { 
     echo "usage: "
@@ -127,9 +114,7 @@ function delete() {
     fi
 }
 
-function getPwd() {
-    # echo $1
-    # echo "hello"
+function getPwdForEnv() {
     while IFS= read -r line ; do
         # each line can be broken by the `=` char
         IFS='=' 
@@ -148,7 +133,9 @@ function list() {
         # if the key is valid then append to the list
         if [[ $line != "$KEYS_FILE_NAME" ]]; 
             then filePwd=$(getPwd $line)
-                 echo -e "$line $filePwd"
+                 folder=$(echo $filePwd | sed 's#.*/##')
+
+                 printf "%-10s | %-0s/\n" $line $folder 
                  FOUND=1
         fi
     done < <(ls $DASH_DIR)
