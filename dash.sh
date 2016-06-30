@@ -15,13 +15,13 @@ DEF_VALID_KEYS=(
 VALID_KEYS=()
 LOCAL_ENV=()
 DASH_DIR="$HOME/.dash"
-KEYS_FILE_NAME="profile"
+KEYS_FILE_NAME=".profile"
 KEYS_FILE="$DASH_DIR/$KEYS_FILE_NAME"
-ARG_HELP="h"
-ARG_VIEW="ls"
-ARG_LOAD="l"
-ARG_SAVE="s"
-ARG_DELETE="rm"
+ARG_HELP="-h"
+ARG_VIEW="-ls"
+ARG_LOAD="-l"
+ARG_SAVE="-s"
+ARG_DELETE="-rm"
 
 function usage() { 
     echo "usage: "
