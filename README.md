@@ -24,6 +24,18 @@ $ cd ~/dev/projects
 $ dash -s projects
 ```
 
+- View saved `dashes`
+
+```
+$ dash -ls
+desk       | Desktop/
+dev        | dev/
+home       | myuser/
+media      | mediaserver/
+projects   | projects/
+research   | client/
+```
+
 - Load a `dash`
 
 ```
@@ -33,6 +45,7 @@ $ dash -l projects
 $ pwd
 /Users/myuser/dev/projects
 ```
+Note, `dash <name>` is shorthand for `dash -l <name>`
 
 - Load a `dash` and move deeper into the directory
 
