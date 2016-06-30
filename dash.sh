@@ -94,13 +94,6 @@ function save() {
     echo "dash saved as '$1'"
 }
 
-function runScripts() {
-    if [ -d ".git" ]; then
-        if [[ $(git branch -r) != "" ]]; then eval "git pull"
-        fi
-    fi
-}
-
 function load() {
     IFS='/' 
     read -r dashName extraPath <<< "$1"
@@ -126,8 +119,6 @@ function load() {
                 eval "cd '$val/$extraPath'"
             fi
         done < <(cat $file)
-
-        runScripts
 
         if [ "$extraPath" == '' ]; then
             echo "'$dashName' dash loaded."
