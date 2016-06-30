@@ -70,7 +70,18 @@ function setCurrentEnvironment() {
 } 
 
 function save() {
+
+    if [ $1 = $KEYS_FILE_NAME ]; then
+        echo "'"$1 "' cannot be used as a dash name!"
+        return 1
+    fi
+
     file="$DASH_DIR/$1"
+
+    if [ -f $file ]; then
+        echo "'"$1 "' is already a dash! please remove using" $ARG_DELETE
+        return 1
+    fi
 
     for i in "${LOCAL_ENV[@]}"
     do
@@ -91,7 +102,11 @@ function runScripts() {
 }
 
 function load() {
-    file="$DASH_DIR/$1"
+    IFS='/' 
+    read -r dashName extraPath <<< "$1"
+    IFS=
+
+    file="$DASH_DIR/$dashName"
     if [ -f $file ]; then 
         while IFS= read -r line ; do
             IFS='=' 
@@ -104,13 +119,22 @@ function load() {
             fi
 
             if [[ $key == "PWD" ]]; then
-                eval "cd '$val'"
+                if [ ! -d "$val/$extraPath" ]; then
+                    echo "'$val/$extraPath' does not exist!"
+                    extraPath=''
+                fi
+                eval "cd '$val/$extraPath'"
             fi
         done < <(cat $file)
 
         runScripts
-        echo "'$1' dash loaded"
-        else echo "'$1' dash not found"
+
+        if [ "$extraPath" == '' ]; then
+            echo "'$dashName' dash loaded."
+        else 
+            echo "'$dashName' dash loaded. Moved to '$extraPath'"
+        fi
+    else echo "'$1' dash not found"
     fi
 }
 
@@ -180,11 +204,11 @@ function main() {
             ;;
         $ARG_HELP)
             usage
-            return
+            return 0
             ;;
         *)
             load $1
-            return
+            return 0
     esac
 }
 
