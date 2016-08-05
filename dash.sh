@@ -1,15 +1,7 @@
 #!/usr/local/bin/bash
 
 # default keys we care about
-DEF_VALID_KEYS=(
-    "PATH" 
-    "SHELL"
-    "LSCOLORS"
-    "USER"
-    "CLICOLOR"
-    "LOGNAME"
-    "HOME"
-    "PWD")
+DEF_VALID_KEYS=("PWD")
 # the keys we actually care about (may be overridden with config file)
 VALID_KEYS=()
 LOCAL_ENV=()
