@@ -7,7 +7,6 @@ DEF_VALID_KEYS=(
     "LSCOLORS"
     "USER"
     "CLICOLOR"
-    "PS1"
     "LOGNAME"
     "HOME"
     "PWD")
