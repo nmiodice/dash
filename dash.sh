@@ -1,4 +1,4 @@
-#!/usr/local/bin/bash
+#!/bin/bash
 
 # default keys we care about
 DEF_VALID_KEYS=("PWD")
