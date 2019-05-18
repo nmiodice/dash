@@ -1,11 +1,13 @@
-#dash -- bookmarks for your terminal
+# dash bookmarks for your terminal
+
 Dash is a simple to use tool that allows you to bookmark certain directories that you use in your terminal. We call these bookmarks a `dash`.
 
 When you save a `dash`, the script will automatically save the followign environment variables: `PWD`. You can override which variables are saved, making it simple to customize your `dash` environments even further! 
 
 
 
-##Examples, features & usage
+## Examples, features & usage
+
 Dash is easy to use. After installing, you can try the following:
 
 
